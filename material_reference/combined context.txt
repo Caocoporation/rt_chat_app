@@ -1,0 +1,7 @@
+combine multiple contexts in one context and 
+
+https://stackoverflow.com/questions/53988193/how-to-get-multiple-static-contexts-in-new-context-api-in-react-v16-6
+
+update class instance
+
+https://stackoverflow.com/questions/62262385/react-context-not-updating-for-class-as-value

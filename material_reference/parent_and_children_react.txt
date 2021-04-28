@@ -1,0 +1,3 @@
+https://www.pluralsight.com/guides/how-to-pass-data-between-react-components
+
+https://medium.com/@nipunadilhara/passing-data-between-different-components-using-react-c8e27319ee69

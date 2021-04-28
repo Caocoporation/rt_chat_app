@@ -1,0 +1,13 @@
+Material Reference on Breaking websocket_receive method into multiple methods:
+
+https://github.com/andrewgodwin/channels-examples/blob/master/multichat/chat/consumers.py
+
+https://stackoverflow.com/questions/35677235/how-to-extend-a-react-component
+
+https://github.com/asifpy/channels-examples/blob/master/channels_examples/routing.py
+
+https://groups.google.com/g/django-developers/c/n3cC9AWwTXA?pli=1
+
+
+
+
