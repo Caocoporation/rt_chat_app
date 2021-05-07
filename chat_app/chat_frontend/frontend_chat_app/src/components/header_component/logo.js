@@ -9,7 +9,7 @@ class Logo extends React.Component {
         return(
             <LogoWrapper>
                 <LogoImg
-                    src="http://127.0.0.1:8000/media/website_logo/lagger.png" 
+                    src="/website_logo/lagger.png" 
                     alt="no img" />
             </LogoWrapper>
         )

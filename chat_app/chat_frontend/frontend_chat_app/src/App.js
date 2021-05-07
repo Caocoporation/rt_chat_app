@@ -26,8 +26,6 @@ store.subscribe(() => {
   console.log(store.getState());
 });
 
-
-
 class App extends React.Component {
   state = {}
 

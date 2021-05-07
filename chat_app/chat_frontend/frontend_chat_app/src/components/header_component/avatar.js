@@ -7,37 +7,14 @@ import styled from 'styled-components';
 class Avatar extends React.Component {
     state = {}
 
-    static contextType = WebsocketContext;
-
     render() {
-        // var { isLogin, loginStatus, logoutStatus, say_hello, websocket } = this.context;
-        // var userStatus = isLogin ? loginStatus : logoutStatus;
+        return(            
+            <AvatarWrapper id="avatar-wrapper">
+                <AvatarImg 
+                    src={this.props.user.profile_image}  
+                    alt="no avt" />
 
-        // console.log(userStatus.avatarUrl);
-        // console.log(say_hello);
-
-        console.log(this.context);
-
-        // say_hello = "welcome";
-
-        // console.log(say_hello);
-        // console.log(websocket);
-
-        return(
-            <>
-                {(() => {
-                    if (this.props.window.windowSize > 768) {
-                        return(
-                            <AvatarWrapper id="avatar-wrapper">
-                                <AvatarImg 
-                                    src={this.props.user.profile_image}  
-                                    alt="no avt" />
-
-                            </AvatarWrapper>
-                        )
-                    }
-                })()}
-            </>
+            </AvatarWrapper>
         )
     }
 }
