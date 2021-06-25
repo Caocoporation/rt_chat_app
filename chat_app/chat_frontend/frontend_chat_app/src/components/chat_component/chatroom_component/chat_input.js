@@ -2,7 +2,7 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { newMessage } from "../../../actions/messageAction";
+import { newMessage } from "actions/messageAction";
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -39,7 +39,8 @@ class ChatInput extends React.Component{
 
     render() {
         return(
-            <MessageInputBox>
+            <MessageInputBox
+                className="message-input-container">
                 <InputBox>
                     <MessageInput
                         type="text" 
@@ -73,7 +74,7 @@ const SendingButton = styled.button`
     position: absolute;
     right: 5px;
     border-radius: 50%;
-    padding: 2px
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -17,16 +17,16 @@ class Logo extends React.Component {
 }
 
 const LogoWrapper = styled.div`
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 `;
 
 const LogoImg = styled.img`
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
 `;
 
 const mapStateToProps = function (state) {

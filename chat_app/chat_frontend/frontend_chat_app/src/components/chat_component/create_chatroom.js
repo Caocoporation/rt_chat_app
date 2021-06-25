@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import axiosInstance from '../../axios';
-// import {w3cwebsocket as W3CWebSocket} from "websocket";
+// import axiosInstance from 'axiosPackage/';
 import jwt_decode from 'jwt-decode';
-import {fetchRooms} from '../../actions/roomAction'; 
+import {fetchRooms} from 'actions/roomAction'; 
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { closeCreateRoomStatusAction } from "../../actions/statusAction";
+import { closeCreateRoomStatusAction } from "actions/statusAction";
 
 // set up websocket
 
@@ -43,20 +43,17 @@ class CreateChatRoom extends React.Component {
         e.preventDefault();
         axiosInstance.post(
             "http://127.0.0.1:8000/c_room/", 
-            {
-                room_name: this.state.room_name
-            }
+            {room_name: this.state.room_name}
         )
 
         .then((res) => {
             console.log(res.data);
             // const fetch_room = this.props.fetchRooms("/r_room");
-            window.location.href = "/chat/chatrooms";
+            //window.location.href = "/chat/chatrooms";
         })
     }
   
     render() {
-        // Use parenthesises
         return ( 
             <CreateRoomBackground>
                 <CreateRoomWrapper>
@@ -139,6 +136,7 @@ const CreateRoomBackground = styled.div`
     top: 0;
     left: 0;
     display: flex;
+    z-index: 1;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);

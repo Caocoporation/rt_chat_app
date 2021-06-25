@@ -15,7 +15,7 @@ from .models import ChatRoom, Group, Participant, Message, Notification
 from user_management.models import Account
 from django.conf import settings
 import jwt
-from .authorization import is_authorized, verify_token, access_token_authentication
+from .authorization import verify_token
 from django.core import serializers
 import json
 
@@ -57,13 +57,9 @@ class RetrieveNotification(APIView):
 
     def get(self, request, user_id):
         if request.method == "GET":
-            print("RetrieveNotification is running.")
-            print(user_id)
             current_user_id = request.user.id
 
             notifications = Notification.objects.filter(receiver_id=current_user_id)
-
-            print(notifications)
 
             if len(notifications) > 0:
                 data = NotificationSerializer(notifications, many=True).data
@@ -82,7 +78,7 @@ class RetrieveMessage(generics.ListAPIView):
 
     def get(self, request, room_code):
         if request.method == "GET":
-            payload = access_token_authentication(request)
+            payload = verify_token(request=request)
 
             if payload is not None:    
                 room = ChatRoom.objects.get(room_code=room_code)
@@ -110,27 +106,18 @@ class SearchChatRooms(APIView):
 
     def post(self, request):
         if request.method == "POST":
-            print(request.data)
-
             room_code = request.data.get("searchKey", None)
 
-            if is_authorized(request) is None: 
-                return Response({"message": "Bad request"}, status=status.HTTP_401_UNAUTHORIZED)
+            payload = verify_token(request=request)
+
+            if payload is not None:
+                searchingRooms = ChatRoom.objects.get(room_code=room_code)                
+                data = ChatRoomSerializer(searchingRooms).data
+    
+                return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
 
             else:
-                access_token = is_authorized(request)
-                payload = verify_token(access_token)
-
-                if payload is not None:
-                    searchingRooms = ChatRoom.objects.get(room_code=room_code)
-                    print(searchingRooms)
-                  
-                    data = ChatRoomSerializer(searchingRooms).data
-        
-                    return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
-
-                else:
-                    return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
             
 
 class RetrieveChatRoom(APIView):
@@ -140,29 +127,23 @@ class RetrieveChatRoom(APIView):
 
     def get(self, request):
         if request.method == "GET":
-               
-            if is_authorized(request) is None: 
-                return Response({"message": "Bad request"}, status=status.HTTP_401_UNAUTHORIZED)
+            # user now is payload
+            payload = verify_token(request=request)
+
+            if payload is not None:
+                user = Account.objects.get(id=payload['user_id'])
+                participant = user.user.all()
+
+                print(participant[0].chatroom_set.all())
+
+                all_rooms = list(chain(participant[0].chatroom_set.all()))
+
+                data = ChatRoomSerializer(all_rooms, many=True).data
+    
+                return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
 
             else:
-                access_token = is_authorized(request)
-                # user now is payload
-                payload = verify_token(access_token)
-
-                if payload is not None:
-                    user = Account.objects.get(id=payload['user_id'])
-                    participant = user.user.all()
-
-                    print(participant[0].chatroom_set.all())
-
-                    all_rooms = list(chain(participant[0].chatroom_set.all()))
-
-                    data = ChatRoomSerializer(all_rooms, many=True).data
-        
-                    return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
-
-                else:
-                    return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
                 
 class RetrieveDetailedChatRoom(generics.RetrieveAPIView):
@@ -172,52 +153,43 @@ class RetrieveDetailedChatRoom(generics.RetrieveAPIView):
 
     def get(self, request, room_code):
         if request.method == "GET":
-            print("Detailed room")
-            print(request)
-            print(room_code)
+            payload = verify_token(request=request)
 
-            if is_authorized(request) is None: 
-                return Response({"message": "Bad request"}, status=status.HTTP_401_UNAUTHORIZED)
+            if payload is not None:
+                room = ChatRoom.objects.get(room_code=room_code)
+
+                data = ChatRoomSerializer(room).data
+    
+                return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
 
             else:
-                access_token = is_authorized(request)
-
-                payload = verify_token(access_token)
-
-                if payload is not None:
-                    room = ChatRoom.objects.get(room_code=room_code)
-
-                    print(room)
-
-                    data = ChatRoomSerializer(room).data
-        
-                    return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
-
-                else:
-                    return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class RoomCreationView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ChatRoomSerializer
+    queryset = ChatRoom.objects.all()
 
     def post(self, request, format=None):
         if request.method == "POST":
-            print(request)
             room_name = request.data.get('room_name')
 
-            if is_authorized(request) is None: 
-                return Response({"message": "Bad request"}, status=status.HTTP_401_UNAUTHORIZED)
+            payload = verify_token(request=request)
 
-            else:
-                access_token = is_authorized(request)
-                payload = verify_token(access_token)
+            if payload is not None:
 
-                if payload:
-                    host = Account.objects.filter(username=payload['username'])
-                    special_participant = Participant.objects.get(user=host[0])
-                    print("hello, I'm the host")
-                    print(special_participant)
-                    create_room = ChatRoom(host=host[0], room_name=room_name)
+                host = Account.objects.filter(username=payload['username'])
+                special_participant = Participant.objects.get(user=host[0])
+                create_room = ChatRoom(host=host[0], room_name=room_name)
+
+                data = {
+                    "host": host[0],
+                    "room_name": room_name
+                }
+
+                room = self.serializer_class(data=data)
+
+                if room.is_valid():
                     create_room.save()
                     create_room.participants.add(special_participant)
 
@@ -226,9 +198,12 @@ class RoomCreationView(generics.CreateAPIView):
                     return Response({ "room": data, "message": "The room has been created." }, status=status.HTTP_201_CREATED)
 
                 else:
-                    return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+                    return Response({ "message": room.errors}, status=status.HTTP_201_CREATED)
 
-            return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AddParticipantToRoom(generics.UpdateAPIView):

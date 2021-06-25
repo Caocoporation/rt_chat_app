@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { CREATE_ROOM_STATUS } from './actionTypes';
+import { CREATE_ROOM_STATUS, HIDE_CHATBOX_STATUS } from './actionTypes';
 import axiosInstance from "../axios";
 
 const closeCreateRoomStatusAction = () => dispatch => {
@@ -11,6 +11,13 @@ const closeCreateRoomStatusAction = () => dispatch => {
     })
 }
 
+const hideChatBoxAction = (status) => dispatch => {
+    dispatch({
+        type: HIDE_CHATBOX_STATUS,
+        payload: {
+            hideChatBoxStatus: status
+        }
+    })
+}
 
-
-export { closeCreateRoomStatusAction };
+export { closeCreateRoomStatusAction, hideChatBoxAction };

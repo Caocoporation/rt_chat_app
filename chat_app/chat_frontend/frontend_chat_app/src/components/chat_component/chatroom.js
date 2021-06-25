@@ -15,10 +15,6 @@ import {websocketConnect} from '../../actions/websocketAction';
 
 import styled from "styled-components";
 
-// set up websocket
-
-// console.log(SidePanel);
-
 class ChatRoom extends React.Component {
 
     state = {
@@ -28,6 +24,7 @@ class ChatRoom extends React.Component {
         roomCode: this.props.match.params.roomCode,
         roomName: "",
         user_id: this.getUserId(),
+        // chatSectionClassName: this.props.window.chatboxWindowClassName
     }
 
     websocketConnection = () => {
@@ -54,23 +51,25 @@ class ChatRoom extends React.Component {
         }
     }
 
-    render() { 
-        console.log("CHAT ROOM: ", this.state.roomCode);
-        console.log("ROOM NAME: ", this.props.match.params);
-        
+    render() {  
         return (     
             <ChatRoomWrapper>
                 <InternalChatRoom>
                     <ChatSideBar 
                         roomCode = { this.state.roomCode } />
-                    <ChatSection id="chat-section">
+              
+                    <ChatSection 
+                        className="chatbox-section-c" >
                         <ChatBox 
                             roomCode = { this.state.roomCode }  />
+
                         <ChatInput 
                             userId = { this.props.user.user_id }
                             roomCode = { this.state.roomCode } 
                             username = { this.props.user.username }  />
+
                     </ChatSection>
+                          
                 </InternalChatRoom>
             </ChatRoomWrapper>
         )
@@ -85,21 +84,32 @@ const InternalChatRoom = styled.div`
     background-color: rgba(15, 15, 15);
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: 0px;
+
+    @media only screen and (max-width: 600px) {
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 const ChatSection = styled.div`
     display: flex;
     flex-direction: column;
     width: 70%;
-    // background-color: violet;
-    margin-left: 5px;
+    background-color: violet;
+    
+    @media only screen and (max-width: 600px) {
+        display: none;
+        width: 100%;
+    }
 `;
 
 const mapStateToProps = (state) => {
     return {
         isLogin: (state.setUserStatus.isLogin).toString(),
-        user: state.setUserStatus.user.user
+        user: state.setUserStatus.user.user,
+        status: state.status,
+        window: state.window
     }
 }
 

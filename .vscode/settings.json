@@ -10,11 +10,13 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.formatting.provider": "black",
-	"python.linting.pycodestyleEnabled": true,
+	"python.linting.pycodestyleEnabled": false,
 	"python.linting.pylintPath": "pylint",
     "python.linting.pylintArgs": [
         "--load-plugins",
         "pylint_django"
     ],
     "python.pythonPath": "C:\\Users\\MY PC\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
 }

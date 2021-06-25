@@ -9,7 +9,7 @@ import styled from "styled-components"
 
 class Other extends React.Component {
     state = {
-        openOtherPopup: false
+        openOtherPopup: false,
     }
 
     searchBarHandler = (e) => {
@@ -58,11 +58,14 @@ class Other extends React.Component {
                         return(
                             <OtherGroupPopup>
                                 <UserWrapper>
-                                    <Avatar />
+                                    <UserAvatar>
+                                        <img src={this.props.user.profile_image} alt="" />
+                                    </UserAvatar>
                                     <UserName>
                                         {this.props.user.username}
                                     </UserName>
                                 </UserWrapper>
+
                                 <SwitchButton id="switch-button">
                                     {this.switchButton(this.props.isLogin)}
                                 </SwitchButton>
@@ -76,19 +79,38 @@ class Other extends React.Component {
     }
 }
 
-const OtherWrapper = styled.div`
-    height: 80px;
-    width: 80px;
+const UserAvatar = styled.div`
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 10px;
+    margin: 0 10px;
+    background-color: white;
+
+    img {
+        height: 35px;
+        width: 35px;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+    }
+`;
+
+const OtherWrapper = styled.div`
+    height: 50px;
+    width: 50px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 `;
 
 const CarpetIconWrapper = styled.div`
     background-color: rgb(207, 207, 207);
-    border-radius: 50%;
+    border-radius: 5px;
     padding: 5px;
     height: 35px;
     width: 35px;
@@ -104,12 +126,17 @@ const OtherGroupPopup = styled.div`
     background-color: rgba(158, 158, 158);
     box-shadow: -3px -1px 10px -3px rgba(235, 235, 235, 0.68);
     position: absolute;
-    top: 90px;
+    top: 55px;
     right: 0px;
-    width: 250px;
+    width: 180px;
     border-radius: 5px;
     z-index: 1;
     // display: none;
+
+    /* @media only screen and (max-width: 600px) {
+        top: -100px;
+        right: 55px;
+    } */
 `;
 const UserWrapper = styled.div`
     display: flex;
@@ -148,7 +175,7 @@ const SwitchButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white
+    color: white;
 
     &:hover {
         background-color: rgba(7, 7, 7, 0.521);

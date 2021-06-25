@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import * as types from "../actions/actionTypes";
-import * as websocketActions from "../actions/websocketAction";
-import * as messageActions from "../actions/messageAction";
-import * as requestActions from "../actions/requestAction";
-import * as notificationActions from "../actions/notificationAction";
+import * as types from "actions/actionTypes";
+import * as websocketActions from "actions/websocketAction";
+import * as messageActions from "actions/messageAction";
+import * as requestActions from "actions/requestAction";
+import * as notificationActions from "actions/notificationAction";
 import {w3cwebsocket as W3CWebSocket} from "websocket";
 import {onMessageCommand} from "./onmessage/onMessage";
 
@@ -12,9 +12,6 @@ import {onMessageCommand} from "./onmessage/onMessage";
 var socket = null;
 
 const websocketMiddleware = (store) => (next) => (action) => {
-    // console.log(`here is the action: ${action.type}`);
-    // console.log("websocket middleware: ", action.type);
-
     console.log(store);
     
     switch (action.type) {
@@ -60,7 +57,6 @@ const websocketMiddleware = (store) => (next) => (action) => {
             break;
 
         case types.INVITE_REQUEST:
-            console.log("INVITE_REQUEST is activate inside middleware.");
             const payload = action.payload;
             console.log(payload);
             if (socket.bufferedAmount === 0) {

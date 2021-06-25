@@ -4,9 +4,7 @@ import React from "react";
 import moment from "moment";
 // import axiosInstance from "../../../axios";
 import { connect } from "react-redux";
-// import { connectWebsocket } from "../../../actions/websocketConnection";
-import {fetchMessages, clearMessages} from "../../../actions/messageAction";
-// import { CombinedContext } from "../../../provider/combined_provider";
+import {fetchMessages, clearMessages} from "actions/messageAction";
 import styled from "styled-components";
 
 class ChatBox extends React.Component {
@@ -113,7 +111,7 @@ class ChatBox extends React.Component {
     }
 
     focusOnBottom = () => {
-        const messageDisplayContainer = document.querySelector("#message-display-container");
+        const messageDisplayContainer = document.querySelector(".message-display-container");
         messageDisplayContainer.scrollTop = messageDisplayContainer.scrollHeight;
     }
 
@@ -126,7 +124,7 @@ class ChatBox extends React.Component {
     render () {
         return (
             <MessageDisplayContainer
-                id="message-display-container">
+                className="message-display-container">
                 { this.renderMessages(this.props.messages) }
             </MessageDisplayContainer>
         )
@@ -138,9 +136,12 @@ const MessageDisplayContainer = styled.div`
     max-height: 500px;
     overflow-x: hidden;
     overflow-y: auto; 
+    margin: 10px;
+    border-radius: 5px;
+    padding: 3px;
     
     &::-webkit-scrollbar {
-        width: 1px;
+        width: 3px;
         margin-left: 3px;
     }
 
@@ -149,7 +150,7 @@ const MessageDisplayContainer = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: darkgrey;
+        background-color: black;
         outline: 1px solid slategrey;
     }
 `;
@@ -183,8 +184,8 @@ const LowerTemplate = styled.div`
 const AvatarWrapper = styled.div`
     height: 35px;
     width: 35px;
-    border: none
-    outline: none
+    border: none;
+    outline: none;
     border-radius: 50%;
     display: flex;
     justify-content: center;

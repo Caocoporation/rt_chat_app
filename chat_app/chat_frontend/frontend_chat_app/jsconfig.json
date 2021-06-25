@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./src",
+      "paths": {
+        "actions/*": ["/chat_app/chat_frontend/frontend_chat_app/src/actions/*"],
+        "axiosPackage/*": ["/chat_app/chat_frontend/frontend_chat_app/src/axios/*"],
+        "@public/*": ["/chat_app/chat_frontend/frontend_chat_app/public/*"]
+      }
+    },
+    "exclude": ["node_modules", "build", "coverage", "dist", "lib"]
+}

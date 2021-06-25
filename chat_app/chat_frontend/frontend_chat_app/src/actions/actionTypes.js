@@ -30,9 +30,15 @@ export const UPDATE_ROOM = 'UPDATE_ROOM';
 
 // Status actions
 export const CREATE_ROOM_STATUS = 'CREATE_ROOM_STATUS';
+export const HIDE_CHATBOX_STATUS = 'HIDE_CHATBOX_STATUS';
 
 // Window actions
+// export const GET_CURRENT_WINDOW_SIZE = 'GET_CURRENT_WINDOW_SIZE'
+export const UPDATE_ICON_NAME = 'UPDATE_ICON_NAME';
+export const UPDATE_SECTION_NAME = 'UPDATE_SECTION_NAME';
 export const UPDATE_WINDOW_SIZE = 'UPDATE_WINDOW_SIZE';
+export const CHANGE_MODE = 'CHANGE_MODE';
+
 
 
 

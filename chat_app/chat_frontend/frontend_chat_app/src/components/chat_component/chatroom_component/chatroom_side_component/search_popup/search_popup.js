@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import {connect} from "react-redux";
-import {inviteRequest} from "../../../../../actions/requestAction";
+import {inviteRequest} from "actions/requestAction";
 // import axiosInstance from "../../../../../axios";
 import styled from "styled-components";
 import * as Icons from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SearchPopup extends React.Component {
     state = {
-        listOfUsers: this.props.listOfUsers
+        listOfUsers: this.props.listOfUsers,
+        currentParticipants: []
     }
 
     handleKey = (e) => {
@@ -17,7 +18,6 @@ class SearchPopup extends React.Component {
     }
 
     sendInviteRequest = (e) => {
-        console.log("An invite request has been sent.");
         const data = {
             command: "inviting_user",
             room_code: this.props.room.room_code,
@@ -30,30 +30,48 @@ class SearchPopup extends React.Component {
 
         this.props.inviteRequest(data);
     }
+
+    getParticipantFromRoom = (e) => {
+        var currentParticipants = [];
+
+        for (let participant of this.props.room.participants) {
+            currentParticipants.push(participant.user);
+        }
+
+        this.setState({ currentParticipants: [...currentParticipants] });
+    }
+
+    componentDidMount() {
+        this.getParticipantFromRoom();
+    }
     
     render () {
-        console.log(this.state.listOfUsers);
         return (
             <ListUserWrapper id="list-user-wrapper">
-                {/* <CloseButton>
-                    <FontAwesomeIcon 
-                        icon={Icons.faTimesCircle}
-                        style={{ fontSize: 20 }}/>
-              
-                </CloseButton> */}
                 {this.state.listOfUsers?.map((user, index) => (
                     <UserItemWrapper key={index}>
                         <UserNameLabel>
                             {user.username}
                         </UserNameLabel>
 
-                        <InviteButton
-                            className="invite-btn" 
-                            data-user-id={user.id} 
-                            // data-process={this.handleProcess}
-                            onClick={this.sendInviteRequest}>
-                            Invite
-                        </InviteButton>                
+                        {(() => {
+                            var isInTheRoom = this.state.currentParticipants.some(par => {
+                                return JSON.stringify(par) === JSON.stringify(user)
+                            }) 
+
+                            if (!isInTheRoom) {
+                                return (
+                                    <InviteButton
+                                        className="invite-btn" 
+                                        data-user-id={user.id} 
+                                        onClick={this.sendInviteRequest}>
+                                        Invite
+
+                                    </InviteButton>          
+                                )
+                            }
+
+                        })()}      
                     </UserItemWrapper>  
                 ))}
             

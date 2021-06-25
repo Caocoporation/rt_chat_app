@@ -10,7 +10,8 @@ class Avatar extends React.Component {
     render() {
         return(            
             <AvatarWrapper id="avatar-wrapper">
-                <AvatarImg 
+                <img
+                    className="user-avatar"
                     src={this.props.user.profile_image}  
                     alt="no avt" />
 
@@ -20,17 +21,21 @@ class Avatar extends React.Component {
 }
 
 const AvatarWrapper = styled.div`
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-`;
 
-const AvatarImg = styled.img`
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+    }
+
+    @media only screen and (max-width: 768px) {
+        display: none;
+    }
 `;
 
 // export { Avatar };

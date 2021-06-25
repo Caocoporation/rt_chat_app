@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import * as messageActions from "../../actions/messageAction";
-import * as requestActions from "../../actions/requestAction";
-import * as notificationActions from "../../actions/notificationAction";
-import * as roomActions from "../../actions/roomAction";
+import * as messageActions from "actions/messageAction";
+import * as requestActions from "actions/requestAction";
+import * as notificationActions from "actions/notificationAction";
+import * as roomActions from "actions/roomAction";
 // import * as roomActions from "../../actions/roomAction";
 
 export const onMessageCommand = (data, store) => {

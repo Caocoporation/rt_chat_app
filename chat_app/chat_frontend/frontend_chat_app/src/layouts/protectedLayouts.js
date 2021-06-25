@@ -9,8 +9,6 @@ import styled from "styled-components";
 
 export class ProtectedLayouts extends React.Component {
     render() {
-        console.log(ChatRooms);
-
         return (
             <div>
                 <Router>

@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { CREATE_ROOM_STATUS } from "../actions/actionTypes";
+import { CREATE_ROOM_STATUS, HIDE_CHATBOX_STATUS } from "../actions/actionTypes";
 
 const initialState = {
-    createRoomCloseStatus: false
+    createRoomCloseStatus: false,
+    hideChatBoxStatus: false,
+    participantSection: "hidden"
 }
 
 const statusReducer = (state=initialState, action) => {
@@ -16,6 +18,13 @@ const statusReducer = (state=initialState, action) => {
                 state.createRoomCloseStatus = false;
             }
 
+            return {
+                ...state,
+            };
+
+        case HIDE_CHATBOX_STATUS:       
+            state.hideChatBoxStatus = action.payload.hideChatBoxStatus;
+       
             return {
                 ...state,
             };

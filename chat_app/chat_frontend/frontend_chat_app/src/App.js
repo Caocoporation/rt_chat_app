@@ -17,7 +17,8 @@ import { faCrown, faCaretDown, faBell, faCoffee } from '@fortawesome/free-solid-
 import React, {useState, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {updateWindowSize} from './actions/windowAction';
+import {updateWindowSize, changeMode} from './actions/windowAction';
+import {hideChatBoxAction} from "./actions/statusAction";
 
 library.add(faCrown, faCaretDown, faBell, faCoffee)
 
@@ -33,8 +34,50 @@ class App extends React.Component {
     this.props.updateWindowSize(window.innerWidth);
   }
 
+  focusOnDefaultSection = () => {
+    if (this.props.window.currentSection === this.props.window.displaySection) {
+      const defaultSection = document.querySelector(`.${this.props.window.displaySection}`);
+      defaultSection.style.backgroundColor = "green";
+    }
+  }
+
+  defaultChatboxSection = () => {
+    const defaultSection = document.querySelector(`.${this.props.window.currentSection}-c`);
+    const defaultIcon = document.querySelector(`.${this.props.window.currentIcon}`);
+
+    if (defaultSection !== null) {
+      var isMobileMode = this.props.window.currentModeSections.indexOf(this.props.window.currentSection);
+
+
+      if (isMobileMode !== -1) {
+        console.log("True");
+        defaultSection.style.display = "initial";
+        defaultIcon.style.backgroundColor = "green"
+    }
+    }
+  }
+
+  chatboxInDesktopMode = () => {
+    const chatboxSection = document.querySelector(`.chatbox-section-c`);
+    
+    if (chatboxSection !== null) {
+      if (this.props.window.windowMode === "desktop") {
+        chatboxSection.style.display = "initial";
+      }
+  
+      else if (this.props.window.windowMode === "mobile" && this.props.window.currentSection !== "chatbox-section") {
+        chatboxSection.style.display = "none";
+      }
+    }
+  }
+
   componentDidMount() {
-    window.addEventListener("resize", this.updateWindowSize);
+    window.addEventListener("resize", () => {
+      this.updateWindowSize();
+      this.props.changeMode(window.innerWidth);
+      this.chatboxInDesktopMode();
+      this.defaultChatboxSection();
+    });
   }
 
   componentWillUnmount() {
@@ -43,14 +86,14 @@ class App extends React.Component {
 
   render() {
     return (
-		<div>  
-			<Router>
-			  <Switch> 
-				  <Route path="/user/login" component={ PublicLayouts }></Route>
-				  <Route path="/chat" component={ ProtectedLayouts }></Route>            
-			  </Switch>
-			</Router>
-		</div>
+      <div>  
+        <Router>
+          <Switch> 
+            <Route path="/user/login" component={ PublicLayouts }></Route>
+            <Route path="/chat" component={ ProtectedLayouts }></Route>            
+          </Switch>
+        </Router>
+      </div>
     )
   }
 }
@@ -58,8 +101,17 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    windowSize: state.window.windowSize
+    window: state.window,
+    status: state.status
   }
 }
 
-export default connect(mapStateToProps, {updateWindowSize})(App);
+export default connect(
+  mapStateToProps, 
+  {
+    updateWindowSize, 
+    hideChatBoxAction,
+    changeMode
+  }
+  
+)(App);

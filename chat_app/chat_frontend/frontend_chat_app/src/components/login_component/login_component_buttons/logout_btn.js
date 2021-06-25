@@ -54,7 +54,7 @@ const LogoutButtonWrapper = styled.div`
     background-color: rgba(158,158,158);
 
     svg {
-        border-radius: 50%;
+        border-radius: 5px;
         background-color: rgba(85, 84, 84, 0.493);
         color: white;
     }
@@ -71,13 +71,14 @@ const LogoutIcon = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 5px;
 `;
 
 const LogoutLabel = styled.label`
     margin-left: 10px;
-    font-size: 19px;
-    // font-family:'Times New Roman', Times, serif;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Arial, Helvetica, sans-serif;
     color: white;
 `;
 

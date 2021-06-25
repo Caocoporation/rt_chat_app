@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import axiosInstance from "../../../../axios";
+// import axiosInstance from "../../../../axios";
+import axiosInstance from "axios/";
 import { connect } from 'react-redux';
-import {updateRoom} from "../../../../actions/roomAction";
+
+import {updateRoom} from "actions/roomAction";
+
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';

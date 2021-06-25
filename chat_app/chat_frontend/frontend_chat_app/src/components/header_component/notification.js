@@ -171,8 +171,8 @@ class Notification extends React.Component {
 }
 
 const NotificationCard = styled.div`
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     background-color: transperent;
     display: flex;
     justify-content: center;
@@ -193,7 +193,7 @@ const NotificationIconWrapper = styled.div`
     justify-content: center;
     align-items: center;
     background-color: rgb(207,207,207);
-    border-radius: 50%;
+    border-radius: 5px;
     position: relative;
 
     &:hover {

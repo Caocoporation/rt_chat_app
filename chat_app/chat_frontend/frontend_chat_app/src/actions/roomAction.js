@@ -28,9 +28,6 @@ export const fetchRooms = (room_url) => (dispatch) => {
 }
 
 export const getRoom = (room) => (dispatch)  => {
-    console.log("here is joining message");
-    console.log(room);
-
     dispatch({
         type: types.UPDATE_ROOM,
         payload: {
@@ -40,7 +37,6 @@ export const getRoom = (room) => (dispatch)  => {
 }
 
 export const updateRoom = (detailed_room_url) => (dispatch)  => {
-    console.log("Update room went through.");
     axiosInstance.get(detailed_room_url)
         .then((res) => {
             console.log(res.data.data);

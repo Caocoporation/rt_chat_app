@@ -1,5 +1,6 @@
 import React from "react";
 import axiosInstance  from "../../../../axios";
+// import axiosInstance from "axiosInstance/index";
 import SearchPopup from "./search_popup/search_popup";
 import styled from "styled-components";
 import * as Icons from '@fortawesome/free-solid-svg-icons';
@@ -47,15 +48,8 @@ class SearchUsersBar extends React.Component {
     
 
     render () {
-        console.log(this.state.listOfUsers);
-        console.log(this.state.openPopup);
         return (
             <SearchBar>
-                <SearchLabelWrapper>
-                    <SearchLabel>
-                        Find Participants
-                    </SearchLabel>
-                </SearchLabelWrapper>
                 <SearchWrapper>
                     <SearchInput
                         type="text"
@@ -106,19 +100,19 @@ const SearchInput = styled.input`
     height: 20px;
     font-size: 14px;
     border: none;
-    border-radius: 50%;
+    border-radius: 5px;
     outline: none;
     padding: 5px;
     margin: 5px;
     color: var(--black);
 `
 const SearchButton = styled.button`
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     font-size: 14px;
     border: none;
     margin: 5px;
-    border-radius: 50%;
+    border-radius: 5px;
     outline: none;
     background-color: rgba(102, 101, 101, 0.6);
 
@@ -141,7 +135,7 @@ const SearchWrapper = styled.div`
     justify-content: center;
     align-items: center;
     background-color: white;
-    border-radius: 50px;
+    border-radius: 5px;
     transition: all 0.3s ease;
     margin: 10px 5px 5px 5px;
 
@@ -149,23 +143,6 @@ const SearchWrapper = styled.div`
         outline: none;
         box-shadow: 0 0 0 4px rgba(21, 156, 228, 0.4);
     }
-`;
-
-const SearchLabelWrapper = styled.div`
-    height: 30px;
-    width: 100%;
-    background-color: rgba(102,101,101);
-    color: white;
-    font-weight: 600;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-`;
-
-const SearchLabel = styled.label`
-    margin: 5px;
 `;
 
 export default SearchUsersBar;

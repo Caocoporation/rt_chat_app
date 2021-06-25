@@ -29,9 +29,6 @@ class SearchBar extends React.Component {
     }
 
     searchBarHandler = (e) => {
-        console.log("Search > 600px");
-
-        console.log(this.state.key);
         axiosInstance.post(
             `http://127.0.0.1:8000/room/find/`, 
             {
@@ -148,25 +145,28 @@ class SearchBar extends React.Component {
 const SearchPopupInner = styled.div`
     display: flex;
     background-color: white;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     padding: 5px;
-    border-radius: 50px;
+    border-radius: 5px;
+    width: 96%;
 `;
 
 const SearchInput2 = styled.input`
     height: 35px;
+    width: 90%;
+    margin-left: 5px;
     padding-left: 5px;
     padding-right: 5px;
     outline: none;
     border: none;
-    border-radius: 0 50px 50px 0;
+    border-radius: 0 5px 5px 0;
 `;
 
 const CaretLeftWrapper = styled.div`
     height: 25px;
     width: 25px;
-    border-radius: 50%;
+    border-radius: 5px;
     background-color: grey;
     display: flex;
     justify-content: center;
@@ -174,32 +174,37 @@ const CaretLeftWrapper = styled.div`
 `;
 
 const SearchBarWrapper = styled.div`
-    height: 80px;
-    margin-right: 20px;
+    height: 45px;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     // position: relative;
+
+    /* @media only screen and (max-width: 600px) {
+        width: 100%;
+    } */
+
 `;
 
 const InnerWrapper = styled.div`
     background-color: white;
-    border-radius: 50px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 45px;
     padding: 0 5px 0 5px;
     
     @media only screen and (max-width: 768px) {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         padding: 0px;
     }
 `;
 const SearchInput = styled.input`
     height: 45px;
-    border-radius: 50px;
+    border-radius: 5px;
     width: 79%;
     padding: 0 5px 0 5px;
     outline: none;
@@ -211,16 +216,19 @@ const SearchInput = styled.input`
 `;
 
 const SearchPopup = styled.div`
-    height: 80px;
+    height: 50px;
     background-color: transperent;
     padding: 5px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    // position: absolute;
-    // top: 0px;
-    // left: 0px;
-    z-index: 2;
+    /* justify-content: center;
+    align-items: center; */
+    position: absolute;
+    z-index: 1;
+
+    @media only screen and (max-width: 600px) {
+        left: 0px;
+        width: 100%;
+    }
 `;
 
 const SearchIconWrapper = styled.div`
@@ -231,6 +239,10 @@ const SearchIconWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+
+    > * {
+        pointer-events: none;
+    }
 `;
 
 const mapStateToProps = function (state) {

@@ -8,11 +8,10 @@ import jwt_decode from 'jwt-decode';
 // import { WebsocketContext, LoginContext } from "../provider"
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {websocketConnect} from '../actions/websocketAction';
-import { closeCreateRoomStatusAction } from "../actions/statusAction";
+import {websocketConnect} from 'actions/websocketAction';
 import { connect } from 'react-redux';
 
-import {fetchRooms, getRoom} from "../actions/roomAction";
+import {fetchRooms, getRoom} from "actions/roomAction";
 import { CreateChatRoom } from "../components/chat_component";
 
 import styled from "styled-components";
@@ -37,15 +36,11 @@ class ChatRooms extends React.Component {
     }
     handleCloseButton = (e) => {
         if (this.state.closeStatus === true) {
-            this.setState({
-                closeStatus: false
-            })
+            this.setState({closeStatus: false })
         }
 
         else {
-            this.setState({
-                closeStatus: true
-            })
+            this.setState({ closeStatus: true })
         }
     }
 
@@ -55,7 +50,6 @@ class ChatRooms extends React.Component {
     }
 
     collectRoomCode(e) {
-        console.log("It is running.");
         const fetch_chat_rooms = this.props.fetchRooms("/r_room");
     }
 
@@ -64,46 +58,24 @@ class ChatRooms extends React.Component {
         this.collectRoomCode();
     }
 
-
-    moveToCreateRoom = () => {
-        this.props.closeCreateRoomStatusAction();
-    }
-
-    connectToChatRoom = (e) => {
-        console.log(e.target);
+    connectToChatRoom = async (e) => {
         var room_code = e.target.getAttribute("data-room-code");
         var rooms = this.props.rooms;
         var room = rooms.find((room) => room.room_code === room_code)
 
-        console.log(room_code);
-
-        const getRoom = this.props.getRoom(room);
+        await this.props.getRoom(room);
         window.location.href = `/chat/chatroom/${room_code}/`;
     }
 
-    checkHost = (e) => {
-
-    }
-
     render() {
-        console.log(this.props.createRoomStatus);
-        
         return (
             <ExternalWrapper>
                 <ListRoomWrapper>
-                    <CreateRoomButtonWrapper 
-                        onClick={this.moveToCreateRoom} >
-
-                        <FontAwesomeIcon 
-                            icon={Icons.faFolderPlus}
-                            style={ { fontSize: 25, width: 35 } } />
-                    </CreateRoomButtonWrapper>
                     <ListRooms>
                         {this.props.rooms.map((room, index) => ( 
                             <Room key={index}>
                                 {(() => {
-                                    if (room.host.id === this.props.user.user_id) {      
-                                        console.log("it is running !");                       
+                                    if (room.host.id === this.props.user.user_id) {                      
                                         return (
                                             <CrownIconWrapper>
                                                 <FontAwesomeIcon 
@@ -126,14 +98,7 @@ class ChatRooms extends React.Component {
                         ))}
                     </ListRooms>
                 </ListRoomWrapper>
-                { (() => {
-                    if (this.props.createRoomStatus === true) {
-                        return (
-                            <CreateChatRoom closeStatus={this.state.closeStatus} />
-                        )     
-                    }   
-                }) () }
-
+               
             </ExternalWrapper>
         )
     }   
@@ -143,6 +108,7 @@ const ExternalWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: -1;
 `
 
 const ListRoomWrapper = styled.div`
@@ -154,6 +120,7 @@ const ListRoomWrapper = styled.div`
     align-items: center;
     position: relative;
     width: 750px;
+    z-index: 1;
 `;
 
 const ListRooms = styled.ul`
@@ -185,25 +152,6 @@ const CrownIconWrapper = styled.div`
     svg {
         background-color: transparent;
         color: yellow;
-    }
-`;
-
-const CreateRoomButtonWrapper = styled.div`
-    background-color: rgba(15, 15, 15);    
-    display: flex;
-    align-items: center;
-    width: 35px;
-    border-radius: 50%;
-    height: 35px;
-    padding: 10px;
-    color: white;
-    margin: 10px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    
-    svg {
-        background-color: transparent;
     }
 `;
 
@@ -251,5 +199,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps, 
-    { websocketConnect, fetchRooms, getRoom, closeCreateRoomStatusAction }
+    { websocketConnect, fetchRooms, getRoom }
 )(ChatRooms);

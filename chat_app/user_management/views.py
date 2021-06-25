@@ -17,7 +17,7 @@ from django.core import serializers
 from .serializers import UserSerializer
 import jwt
 
-from rt_chat_app.authorization import is_authorized, verify_token, access_token_authentication
+from rt_chat_app.authorization import verify_token
 # from rest_framework.decorators import api_view, permission_required
 
 # Create your views here.
@@ -102,25 +102,20 @@ class SpecificUserView(APIView):
     
     def get(self, request):
         if request.method == "GET":
-            if is_authorized(request) is None: 
-                return Response({"message": "Bad request"}, status=status.HTTP_401_UNAUTHORIZED)
+           
+            payload = verify_token(request=request)
+
+            if payload is not None:
+                user = Account.objects.get(id=payload['user_id'])
+
+                data = UserSerializer(user).data
+
+                print(data)
+    
+                return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
 
             else:
-                access_token = is_authorized(request)
-                # user now is payload
-                payload = verify_token(access_token)
-
-                if payload is not None:
-                    user = Account.objects.get(id=payload['user_id'])
-
-                    data = UserSerializer(user).data
-
-                    print(data)
-        
-                    return Response({ "message": "Success !", "data": data, "user": payload }, status=status.HTTP_200_OK)
-
-                else:
-                    return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -133,17 +128,9 @@ class UserListView(APIView):
         if request.method == "POST":
             current_username = request.user.username
 
-            print(current_username)
-
             users_with_key = Account.objects.filter(username__contains=str(key)).exclude(username=current_username)
 
-            print(users_with_key)
-
             if len(users_with_key) > 0:
-                # list_of_users = [user for user in list(users_with_key) if user.username != current_username]
-
-                # data = serializers.serialize("json", list_of_users)
-
                 data = UserSerializer(users_with_key, many=True).data
 
                 return Response({"data": data}, status=status.HTTP_200_OK)
